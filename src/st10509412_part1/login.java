@@ -28,6 +28,7 @@ public class login {
         // CHECK CELL PHONE NUMBER
         // ================================
     public static boolean checkCellPhoneNo(String cellPhoneNo){
+        // South African number must start with start +27 and contain 9 digits
         String regex = "^\\+27[0-9]{9}$";
 
         return cellPhoneNo.matches(regex);
