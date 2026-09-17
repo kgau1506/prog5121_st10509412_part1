@@ -45,6 +45,7 @@ public class ST10509412_part1 {
         // Prompting the user for their username
         while(true){
             System.out.println("Please enter your username: ");
+            System.out.println("Username must contain an underscore and be no more than 5 characters.");
             userName = userDetails.nextLine();
            
             if (checkUserName(userName)){
@@ -62,6 +63,8 @@ public class ST10509412_part1 {
         // Prompting the user for their password
         while(true){
             System.out.println("Please enter your password: ");
+            System.out.println("Password must contain at least 8 characters, "
+            + "a capital letter, a number, and a special character.");
             password= userDetails.nextLine();
            
             if (checkPasswordComplexity(password)){
@@ -78,6 +81,7 @@ public class ST10509412_part1 {
         // Prompting the user for their cellphone number
          while(true){
             System.out.println("Please enter your cell phone number: ");
+            System.out.println("Cell phone number must start with +27 and contain 9 digits after the country code.");
             cellPhoneNo = userDetails.nextLine();
            
             if (checkCellPhoneNo(cellPhoneNo)){
