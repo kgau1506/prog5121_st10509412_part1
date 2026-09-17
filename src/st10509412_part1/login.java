@@ -17,19 +17,25 @@ public class login {
         private String password;
         private String cellPhoneNo;
         
-        // Check Username
+        // ================================
+        // CHECK USERNAME
+        // ================================
         public static boolean checkUserName(String userName){
         return userName.contains("_")&& userName.length()<= 5;
     }
     
-        // Check CellPhone Number
+        // ================================
+        // CHECK CELL PHONE NUMBER
+        // ================================
     public static boolean checkCellPhoneNo(String cellPhoneNo){
         String regex = "^\\+27[0-9]{9}$";
 
         return cellPhoneNo.matches(regex);
     }
    
-    // Check Password
+    // ================================
+    // CHECK PASSWORD COMPLEXITY
+    // ================================
     public static boolean checkPasswordComplexity(String password){
         if (password.length() < 8){
             return false;
