@@ -93,7 +93,7 @@ public class login {
 
         // Store the details after successful registration
         this.userName = userName;
-        this.password= password;
+        this.password = password;
         this.cellPhoneNo = cellPhoneNo;
 
         return "The user has been registered successfully.";
