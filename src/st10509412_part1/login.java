@@ -104,6 +104,7 @@ public class login {
 
     public boolean loginUser(String userName,String password){
         
+        // Compare the entered details with the registered details
         return this.userName.equals(userName)
                 && this.password.equals(password);
     }
