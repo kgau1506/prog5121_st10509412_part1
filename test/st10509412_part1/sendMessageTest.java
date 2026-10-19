@@ -244,6 +244,26 @@ public class sendMessageTest {
             assertEquals(totalAfterFirstSend, sendMessage.returnTotalMessages());
     }
     
+        
+    // Test 17: Disregarding a message does not increase
+    // the total sent-message count
+    @Test
+    public void testDisregardedMessageDoesNotIncreaseTotal() {
+        sendMessage message = new sendMessage(0);
+        message.setMessageText("Testing disregarded message");
+
+        int totalBefore = sendMessage.returnTotalMessages();
+
+        Scanner input = new Scanner("2\n");
+        message.sentMessage(input);
+
+        assertEquals("Disregarded", message.getMessageStatus());
+        assertEquals(
+            totalBefore,
+            sendMessage.returnTotalMessages()
+        );
+    }
+
     // Helper method for creating messages of a specific length
         
         private String repeatCharacter(char character, int count) {
