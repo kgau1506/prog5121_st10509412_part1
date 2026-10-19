@@ -101,25 +101,29 @@ public class sendMessage {
     
      //Creates and returns the message hash automatically
     
-        public String createMessageHash() {
-            
-                String firstTwoNumbers = messageID.substring(0, 2);
-                String firstWord = "";
-                String lastWord = "";
+        
+    public String createMessageHash() {
 
-            if (messageText != null && !messageText.trim().isEmpty()) {
-                
-                String[] words = messageText.trim().split("\\s+");
-                
-                firstWord = words[0].replaceAll("[^a-zA-Z0-9]", "");
-                
-                lastWord = words[words.length - 1]
+        if (messageID == null || messageID.length() < 2) {
+        return "";
+    }
+
+            String firstTwoNumbers = messageID.substring(0, 2);
+            String firstWord = "";
+            String lastWord = "";
+
+        if (messageText != null && !messageText.trim().isEmpty()) {
+            String[] words = messageText.trim().split("\\s+");
+
+            firstWord = words[0].replaceAll("[^a-zA-Z0-9]", "");
+            lastWord = words[words.length - 1]
                 .replaceAll("[^a-zA-Z0-9]", "");
     }
 
         return (firstTwoNumbers + ":" + messageNumber + ":"
             + firstWord + lastWord).toUpperCase();
     }
+
 
         
         // Allows the user to send, disregard, or store the message
