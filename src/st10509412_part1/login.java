@@ -120,7 +120,8 @@ public class login {
         if (loginSuccessful) {
 
             return "Welcome " + firstName + ", " + lastName
-                    + " it is great to see you again.";
+                    + " it is great to see you again."+ 
+                    " "+ "Welcome to QuickChat.";
 
         } else {
 
