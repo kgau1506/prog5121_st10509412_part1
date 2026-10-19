@@ -222,8 +222,28 @@ public class sendMessageTest {
             sendMessage.returnTotalMessages()
         );
     }
+        
+        // Test 16: Sending the same message twice does not
+        // increase the total sent-message count twice
+    @Test
+        public void testSendingSameMessageTwice() {
+            sendMessage message = new sendMessage(0);
+            message.setMessageText("Testing duplicate sending");
 
+            int totalBefore = sendMessage.returnTotalMessages();
 
+        Scanner firstInput = new Scanner("1\n");
+            message.sentMessage(firstInput);
+
+            int totalAfterFirstSend = sendMessage.returnTotalMessages();
+
+        Scanner secondInput = new Scanner("1\n");
+            message.sentMessage(secondInput);
+
+            assertEquals(totalBefore + 1, totalAfterFirstSend);
+            assertEquals(totalAfterFirstSend, sendMessage.returnTotalMessages());
+    }
+    
     // Helper method for creating messages of a specific length
         
         private String repeatCharacter(char character, int count) {
