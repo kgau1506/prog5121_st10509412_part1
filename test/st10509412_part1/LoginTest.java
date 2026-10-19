@@ -113,7 +113,7 @@ public class LoginTest {
         String result =
                 login.returnLoginStatus(true, "Kyle", "Smith");
         assertEquals(
-                "Welcome Kyle, Smith it is great to see you again."+" "+ "Welcome to QuickChat",
+                "Welcome Kyle, Smith it is great to see you again."+" "+ "Welcome to QuickChat.",
                 result);
     }
     
