@@ -177,6 +177,52 @@ public class sendMessageTest {
                 sendMessage.returnTotalMessages()
             );
     }
+        
+        
+    // Test 14: Invalid numeric choice does not send the message
+    @Test
+    public void testInvalidNumericChoice() {
+        sendMessage message = new sendMessage(0);
+        message.setMessageText("Testing invalid choice");
+
+        Scanner input = new Scanner("4\n");
+
+        int totalBefore = sendMessage.returnTotalMessages();
+
+        assertEquals(
+            "Invalid choice. Message not processed.",
+            message.sentMessage(input)
+        );
+
+        assertEquals("Pending", message.getMessageStatus());
+        assertEquals(
+            totalBefore,
+            sendMessage.returnTotalMessages()
+        );
+    }
+
+    // Test 15: Non-numeric choice does not send the message
+    @Test
+    public void testNonNumericChoice() {
+        sendMessage message = new sendMessage(0);
+        message.setMessageText("Testing non-numeric choice");
+
+        Scanner input = new Scanner("hello\n");
+
+        int totalBefore = sendMessage.returnTotalMessages();
+
+        assertEquals(
+            "Invalid choice. Message not processed.",
+            message.sentMessage(input)
+        );
+
+        assertEquals("Pending", message.getMessageStatus());
+        assertEquals(
+            totalBefore,
+            sendMessage.returnTotalMessages()
+        );
+    }
+
 
     // Helper method for creating messages of a specific length
         
