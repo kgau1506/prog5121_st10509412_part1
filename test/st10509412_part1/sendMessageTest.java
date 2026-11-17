@@ -263,6 +263,66 @@ public class sendMessageTest {
             sendMessage.returnTotalMessages()
         );
     }
+    
+    // Test 18: A 10-digit message ID is accepted
+    @Test
+        public void testValid10DigitMessageID() {
+            sendMessage message = new sendMessage(1, "1234567890");
+
+            assertTrue(message.checkMessageID());
+        }
+
+    // Test 19: A 9-digit message ID is rejected
+    @Test
+        public void test9DigitMessageIDIsRejected() {
+            sendMessage message = new sendMessage(1, "123456789");
+
+            assertFalse(message.checkMessageID());
+        }
+
+    // Test 20: An 11-digit message ID is rejected
+    @Test
+        public void test11DigitMessageIDIsRejected() {
+            sendMessage message = new sendMessage(1, "12345678901");
+
+            assertFalse(message.checkMessageID());
+        }
+
+    // Test 21: Recipient number with prefix 6 is accepted
+    @Test
+        public void testRecipientPrefix6IsAccepted() {
+            sendMessage message = new sendMessage(1);
+            message.setRecipient("+27612345678");
+
+            assertTrue(message.checkRecipientCell());
+        }
+
+    // Test 22: Recipient number with prefix 8 is accepted
+    @Test
+        public void testRecipientPrefix8IsAccepted() {
+            sendMessage message = new sendMessage(1);
+            message.setRecipient("+27812345678");
+
+            assertTrue(message.checkRecipientCell());
+        }
+
+    // Test 23: Recipient number with an invalid prefix is rejected
+    @Test
+        public void testInvalidRecipientPrefixIsRejected() {
+            sendMessage message = new sendMessage(1);
+            message.setRecipient("+27512345678");
+
+            assertFalse(message.checkRecipientCell());
+        }
+
+    // Test 24: A message containing only spaces is rejected
+    @Test
+        public void testMessageContainingOnlySpaces() {
+            sendMessage message = new sendMessage(1);
+            message.setMessageText("     ");
+
+            assertFalse(message.checkMessageLength());
+        }
 
     // Helper method for creating messages of a specific length
         

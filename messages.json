@@ -1,10 +1,1 @@
-[
-  {
-    "messageID": "1266177986",
-    "messageNumber": 0,
-    "recipient": "+27718693002",
-    "messageText": "Hello, Mike!",
-    "messageHash": "12:0:HELLOMIKE",
-    "messageStatus": "Stored"
-  }
-]
+[{"messageStatus":"Stored","messageText":"I just arrived.","messageNumber":1,"recipient":"+27737139095","messageID":"1686439470","messageHash":"16:1:IARRIVED"},{"messageStatus":"Stored","messageText":"I just arrived.","messageNumber":1,"recipient":"+27733862351","messageID":"1834134046","messageHash":"18:1:IARRIVED"},{"messageStatus":"Stored","messageText":"I have tea for you!!","messageNumber":1,"recipient":"+27822549216","messageID":"1391403583","messageHash":"13:1:IYOU"},{"messageStatus":"Stored","messageText":"Hello, Mike!","messageNumber":0,"recipient":"+27718693002","messageID":"1257489363","messageHash":"12:0:HELLOMIKE"},{"messageStatus":"Stored","messageText":"Hello, Mike!","messageNumber":0,"recipient":"+27718693002","messageID":"1855449905","messageHash":"18:0:HELLOMIKE"},{"messageStatus":"Stored","messageText":"I love you so much bestie!","messageNumber":1,"recipient":"+27633862214","messageID":"1433925575","messageHash":"14:1:IBESTIE"},{"messageStatus":"Stored","messageText":"Hello, Mike!","messageNumber":0,"recipient":"+27718693002","messageID":"1803399261","messageHash":"18:0:HELLOMIKE"},{"messageStatus":"Stored","messageText":"Hello, Mike!","messageNumber":0,"recipient":"+27718693002","messageID":"1416671462","messageHash":"14:0:HELLOMIKE"},{"messageStatus":"Stored","messageText":"Hello, Mike!","messageNumber":0,"recipient":"+27718693002","messageID":"1753930586","messageHash":"17:0:HELLOMIKE"},{"messageStatus":"Stored","messageText":"Hello, Mike!","messageNumber":0,"recipient":"+27718693002","messageID":"1173400648","messageHash":"11:0:HELLOMIKE"},{"messageStatus":"Stored","messageText":"I bought your favourite drink.","messageNumber":1,"sender":"ver_a","recipient":"+27737129095","messageID":"1709534299","messageHash":"17:1:IDRINK"}]

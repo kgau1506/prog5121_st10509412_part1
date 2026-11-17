@@ -14,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -22,6 +21,7 @@ public class sendMessage {
      private String messageID;
     private int messageNumber;
     private String recipient;
+    private String sender;
     private String messageText;
     private String messageHash;
     private String messageStatus;
@@ -34,6 +34,12 @@ public class sendMessage {
 
     // Stores messages saved for later.
     private static ArrayList<sendMessage> storedMessages = new ArrayList<>();
+    
+    // Stores all message hashes
+    private static ArrayList<String> messageHashes = new ArrayList<>();
+
+    // Stores all message IDs
+    private static ArrayList<String> messageIDs = new ArrayList<>();
 
     // Counts the total number of messages sent
     private static int totalMessages = 0;
@@ -75,8 +81,7 @@ public class sendMessage {
         return String.valueOf(id);
     }
     
-    // Checks that the message ID is not more than 10 characters
-    
+    // Checks that the message ID contains exactly 10 digits
     
     public boolean checkMessageID() {
     return messageID != null
@@ -219,55 +224,86 @@ public class sendMessage {
     
        // 7. Stores messages in a JSON file
         
-    public boolean storeMessage() {
+    
+        public boolean storeMessage() {
 
-        String previousStatus = messageStatus;
-        messageStatus = "Stored";
+            String previousStatus = messageStatus;
+            messageStatus = "Stored";
 
-        if (!storedMessages.contains(this)) {
+        boolean alreadyStored = storedMessages.contains(this);
+
+            if (!alreadyStored) {
             storedMessages.add(this);
         }
 
-        StringBuilder json = new StringBuilder("[\n");
+        try {
 
-        for (int i = 0; i < storedMessages.size(); i++) {
-            json.append(storedMessages.get(i).toJson());
+            Path filePath = Paths.get("messages.json");
 
-            if (i < storedMessages.size() - 1) {
+            String existingJson = "[]";
+
+        // Check whether the JSON file already exists.
+        
+            if (Files.exists(filePath)) {
+                existingJson = new String(
+                    Files.readAllBytes(filePath),
+                    StandardCharsets.UTF_8
+                ).trim();
+            }
+
+        // Remove the closing bracket of the existing JSON array.
+            if (!existingJson.startsWith("[") ||
+                !existingJson.endsWith("]")) {
+
+                throw new IOException("Invalid JSON file format.");
+            }
+
+            StringBuilder json = new StringBuilder(existingJson);
+
+        // Add the new message to the existing JSON array.
+            if (!alreadyStored) {
+
+                json.deleteCharAt(json.length() - 1);
+
+            if (json.toString().trim().length() > 1) {
                 json.append(",");
             }
 
-            json.append("\n");
-        }
+                json.append("\n");
+                json.append(this.toJson());
+                json.append("\n]");
+            }
 
-        json.append("]");
-
-        try {
             Files.write(
-                    Paths.get("messages.json"),
-                    json.toString().getBytes("UTF-8")
+                filePath,
+                json.toString().getBytes(StandardCharsets.UTF_8)
             );
 
-            return true;
+        return true;
 
         } catch (IOException e) {
+
             messageStatus = previousStatus;
+
+        if (!alreadyStored) {
             storedMessages.remove(this);
+        }
 
             System.out.println("Error storing message: "
-                    + e.getMessage());
+                + e.getMessage());
 
             return false;
         }
     }
 
+
     // Converts the message details into JSON format
-    
     private String toJson() {
 
         return "  {\n"
                 + "    \"messageID\": \"" + escapeJson(messageID) + "\",\n"
                 + "    \"messageNumber\": " + messageNumber + ",\n"
+                + "    \"sender\": \"" + escapeJson(sender) + "\",\n"
                 + "    \"recipient\": \"" + escapeJson(recipient) + "\",\n"
                 + "    \"messageText\": \"" + escapeJson(messageText) + "\",\n"
                 + "    \"messageHash\": \"" + escapeJson(messageHash) + "\",\n"
@@ -276,6 +312,10 @@ public class sendMessage {
     }
 
     // Handles special characters inside JSON text
+    // Source: Bray, T. (2017). RFC 8259: The JavaScript Object
+    // Notation (JSON) Data Interchange Format, Section 7.
+    // https://www.rfc-editor.org/rfc/rfc8259
+    // This method escapes special characters in JSON strings.
     
     private String escapeJson(String text) {
         if (text == null) {
@@ -323,12 +363,54 @@ public class sendMessage {
         public void setMessageText(String messageText) {
             this.messageText = messageText;
     }
+        
+        // Sets the sender's username
+            public void setSender(String sender) {
+                this.sender = sender;
+            }
 
-        public void refreshMessageHash() {
+        // Returns the sender's username
+            public String getSender() {
+                return sender;
+            }
+
+       public void refreshMessageHash() {
             this.messageHash = createMessageHash();
-    }
 
+            if (!messageIDs.contains(messageID)) {
+            messageIDs.add(messageID);
+            }
+
+            if (!messageHashes.contains(messageHash)) {
+            messageHashes.add(messageHash);
+        }
+}
  
+       // Allows storedData to access the sent messages
+            public static ArrayList<sendMessage> getSentMessages() {
+            return new ArrayList<>(sentMessages);
+            }
+
+        // Allows storedData to access the disregarded messages
+            public static ArrayList<sendMessage> getDisregardedMessages() {
+                return new ArrayList<>(disregardedMessages);
+            }
+
+        // Allows storedData to access the stored messages
+            public static ArrayList<sendMessage> getStoredMessages() {
+                return new ArrayList<>(storedMessages);
+            }
+
+        // Allows storedData to access the message hashes
+            public static ArrayList<String> getMessageHashes() {
+                return new ArrayList<>(messageHashes);
+            }
+
+        // Allows storedData to access the message IDs
+            public static ArrayList<String> getMessageIDs() {
+                return new ArrayList<>(messageIDs);
+            }
+            
 
     
 }

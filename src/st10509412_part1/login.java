@@ -31,7 +31,7 @@ public class login {
         // South African number must start with start +27 and contain 9 digits
         String regex = "^\\+27[0-9]{9}$";
 
-        return cellPhoneNo.matches(regex);
+        return cellPhoneNo != null && cellPhoneNo.matches(regex);
     }
    
     // ================================
@@ -128,6 +128,11 @@ public class login {
             return "Username or password incorrect, please try again.";
         }
     }
+    
+        // Returns the username of the logged-in user
+        public String getUserName() {
+        return userName;
+        }
 }
 
  

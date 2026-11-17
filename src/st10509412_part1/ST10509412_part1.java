@@ -9,12 +9,12 @@ package st10509412_part1;
  * @author mphos
  */
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
 import static st10509412_part1.login.checkCellPhoneNo;
 import static st10509412_part1.login.checkPasswordComplexity;
 import static st10509412_part1.login.checkUserName;
 public class ST10509412_part1 {
+    
+    private static int messageNumberCounter = 0;
     
     public static void main(String[] args) {
        
@@ -96,14 +96,16 @@ public class ST10509412_part1 {
             }
         }
          
-         // Register user
-         String registrationMessage = login.registerUser(userName, password, cellPhoneNo);
+        // Register user
          
-         System.out.println("You have registered successfully");
-         System.out.println("Welcome " + name + " " + surname);
+            String registrationMessage = login.registerUser(userName, password, cellPhoneNo);
+
+            System.out.println(registrationMessage);
+         
+           System.out.println("Welcome " + name + " " + surname);
          
          // LOGIN
-         System.out.println("\n===== LOGIN =====");
+            System.out.println("\n===== LOGIN =====");
 
         // Check login details
         boolean loginSuccessful = false;
@@ -126,57 +128,147 @@ public class ST10509412_part1 {
 
         System.out.println(loginMessage);
         
-        runQuickChat(userDetails);
+        runQuickChat(userDetails, login.getUserName());
         
 
         userDetails.close();
     }
-     
-            private static void runQuickChat(Scanner input) {
-                int choice = 0;
+     // Start QuickChat
+    private static void runQuickChat(Scanner input, String sender) {
 
-                while (choice != 3) {
-                    
-                    System.out.println("\n======================================");
-                    System.out.println("          QUICKCHAT Options:");
-                    System.out.println("======================================");
-                    System.out.println("1. Send Messages");
-                    System.out.println("2. Show recently sent messages");
-                    System.out.println("3. Quit");
-                    System.out.print("Choose an option: ");
+        int choice = 0;
 
-                try {
-                    choice = Integer.parseInt(input.nextLine());
+        while (choice != 4) {
+
+            System.out.println("\n======================================");
+            System.out.println("          WELCOME TO QUICKCHAT");
+            System.out.println("======================================");
+            System.out.println("1. Send Messages");
+            System.out.println("2. Show recently sent messages");
+            System.out.println("3. Stored Messages");
+            System.out.println("4. Quit");
+            System.out.print("Choose an option: ");
+
+            try {
+
+                choice = Integer.parseInt(input.nextLine());
 
                 switch (choice) {
-                    
-                        case 1:
-                            sendMessages(input);
-                        break;
-                        
-                       
-                        case 2:
-                            String sent = sendMessage.printMessages();
-                            System.out.println(sent);
+
+                    case 1:
+                        sendMessages(input, sender);
                         break;
 
-                        
-                        case 3:
-                            
-                            System.out.println("Thank you for using QuickChat. Goodbye!");
+                    case 2:
+                        String sent = sendMessage.printMessages();
+                        System.out.println(sent);
                         break;
-                        
-                        default:
-                             System.out.println("Please choose 1, 2, or 3.");
+
+                    case 3:
+                        storedMessagesMenu(input);
+                        break;
+
+                    case 4:
+                        System.out.println(
+                                "Thank you for using QuickChat. Goodbye!"
+                        );
+                        break;
+
+                    default:
+                        System.out.println("Please choose 1, 2, 3, or 4.");
+                }
+
+            } catch (NumberFormatException e) {
+
+                System.out.println("Please enter a valid number.");
             }
-                        } catch (NumberFormatException e) {
-                            
-                                 System.out.println("Please enter a valid number.");
-        }   
+        }
     }
-}
+    
+    // Displays the Stored Messages menu
+    private static void storedMessagesMenu(Scanner input) {
 
-                private static void sendMessages(Scanner input) {
+        storedData data = new storedData();
+
+            int choice = 0;
+
+        while (choice != 7) {
+
+            System.out.println("\n======================================");
+            System.out.println("           STORED MESSAGES");
+            System.out.println("======================================");
+            System.out.println("1. Display sender and recipient details");
+            System.out.println("2. Display longest message");
+            System.out.println("3. Search message by ID");
+            System.out.println("4. Search messages by recipient");
+            System.out.println("5. Delete message using message hash");
+            System.out.println("6. Display full message report");
+            System.out.println("7. Return to main menu");
+            System.out.print("Choose an option: ");
+
+            try {
+
+                choice = Integer.parseInt(input.nextLine());
+
+                switch (choice) {
+
+                    case 1:
+                        data.displayStoredMessages();
+                        break;
+
+                    case 2:
+                        System.out.println(data.displayLongestMessage());
+                        break;
+
+                    case 3:
+                        System.out.print("Enter message ID: ");
+                        String searchID = input.nextLine();
+
+                        System.out.println(
+                                data.searchMessageByID(searchID)
+                        );
+                        break;
+
+                    case 4:
+                        System.out.print("Enter recipient cellphone number: ");
+                        String recipient = input.nextLine();
+
+                        System.out.println(
+                                data.searchMessagesByRecipient(recipient)
+                        );
+                        break;
+
+                    case 5:
+                        System.out.print("Enter message hash: ");
+                        String hash = input.nextLine();
+
+                        System.out.println(
+                                data.deleteMessageByHash(hash)
+                        );
+                        break;
+
+                    case 6:
+                        System.out.println(data.displayFullReport());
+                        break;
+
+                    case 7:
+                    System.out.println("Returning to main menu...");
+                        break;
+
+                    default:
+                        System.out.println("Please choose a number from 1 to 7.");
+                }
+
+            } catch (NumberFormatException e) {
+
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
+            
+         //Send Messages
+
+                private static void sendMessages(Scanner input, String sender) {
                         int numberOfMessages;
 
                     while (true) {
@@ -200,12 +292,15 @@ public class ST10509412_part1 {
     }
 
                     for (int i = 0; i < numberOfMessages; i++) {
-                        System.out.println("\n======================================");
-                        System.out.println("MESSAGE " + (i + 1));
-                        System.out.println("======================================");
 
+                        messageNumberCounter++;
+
+                        System.out.println("\nMESSAGE " + messageNumberCounter);
+
+                        sendMessage message = new sendMessage(messageNumberCounter);
+                        
+                        message.setSender(sender);
         
-                sendMessage message = new sendMessage(i);
                         System.out.println("Message ID generated: " + message.getMessageID());
 
                     String recipient;

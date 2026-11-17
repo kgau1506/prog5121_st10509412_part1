@@ -57,6 +57,25 @@ public class LoginTest {
         assertFalse(result);
     }
     
+    @Test
+        public void testRegisterUserInvalidPassword() {
+            login login = new login();
+
+            String result = login.registerUser(
+                "kyl_1",
+                "password",
+                "+27838968976"
+            );
+
+            assertEquals(
+                "Password is not correctly formatted; "
+                + "please ensure that the password contains at least "
+                + "eight characters, a capital letter, a number, "
+                + "and a special character.",
+            result
+            );
+        }
+    
      @Test
     public void testCheckCellPhoneNumberCorrect() {
         login login = new login();
@@ -76,6 +95,23 @@ public class LoginTest {
 
         assertFalse(result);
     }
+    
+    @Test
+        public void testRegisterUserInvalidCellPhone() {
+            login login = new login();
+
+            String result = login.registerUser(
+                "kyl_1",
+                "Ch&&sec@ke99!",
+                "08966553"
+            );
+
+            assertEquals(
+                "Cell phone number is incorrectly formatted "
+                + "or does not contain international code.",
+            result
+            );
+        }
     
     @Test
     public void testRegisterUserSuccessful() {
