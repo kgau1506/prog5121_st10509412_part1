@@ -115,6 +115,104 @@ This file allows the stored message information to be retained outside the appli
 
 JUnit 4 was used to test the message-processing functionality. The test suite contains 17 tests covering:
 
+# PROG5121 – QuickChat Application (Part 3)
+
+## 1. Project Overview
+
+QuickChat is a Java-based messaging application developed as part of the PROG5121 programming module. The application allows users to register, log in, send messages, disregard messages and store messages for later access.
+
+Part 3 extends the functionality of the application by introducing stored-message management features. These features allow users to view, search, delete and generate reports about messages saved in a JSON file.
+
+## 2. Part 3 Features
+
+The following features were implemented:
+
+- **Populate Arrays:** Message information is organised into arrays to manage sent, disregarded and stored messages, together with message IDs and hashes.
+- **Display Longest Message:** Searches stored messages and displays the longest message with its related details.
+- **Search Messages by Recipient:** Searches for messages sent to a specific recipient and displays the matching message information.
+- **Delete Message Using Message Hash:** Finds a stored message using its unique message hash and removes it from the JSON file.
+- **Read JSON File:** Reads previously stored messages from `messages.json` and loads their information into arrays.
+- **Display Stored Messages:** Displays stored message details, including the sender, recipient, message ID, hash, message text and status.
+- **Full Message Report:** Generates a report containing the details of all stored messages.
+
+## 3. Files and Classes
+
+| File | Description |
+|---|---|
+| `ST10509412_part1.java` | Main class that manages the application menu and connects the different features. |
+| `sendMessage.java` | Handles message creation, validation, sending, disregarding and storing. |
+| `storedData.java` | Handles stored-message arrays, JSON reading, searching, deletion and reporting. |
+| `storedDataTest.java` | Contains unit tests for the Part 3 stored-message functionality. |
+| `messages.json` | Stores message information in JSON format. |
+
+## 4. How to Run the Application
+
+1. Clone or download the project from the GitHub repository.
+2. Open the project in NetBeans.
+3. Ensure that Java 21 is installed.
+4. Ensure that the `json-simple-1.1.jar` library is included in the project.
+5. Locate and run `ST10509412_part1.java`.
+6. Register a user or log in using the available login functionality.
+7. Use the QuickChat menu to send messages or access stored-message features.
+
+## 5. Stored Messages Menu
+
+The Stored Messages menu provides the following options:
+
+1. Display sender and recipient details.
+2. Display the longest message.
+3. Search for a message using its ID.
+4. Search for messages using a recipient.
+5. Delete a message using its hash.
+6. Display the full message report.
+7. Return to the main menu.
+
+## 6. Unit Testing
+
+Unit tests were created to verify the functionality of the Part 3 features.
+
+The tests cover:
+- Displaying details of the longest stored message.
+- Searching for messages belonging to a particular recipient.
+- Ensuring unrelated recipient messages are excluded.
+- Deleting a message using its hash while retaining other messages.
+- Reading multiple stored messages from a JSON file.
+- Displaying stored message details.
+- Handling older stored messages that do not contain sender information.
+
+**Latest local test result:** 22 tests passed, with 0 failures.
+
+## 7. Automated Testing with GitHub Actions
+
+GitHub Actions was configured to automatically build the project and execute the unit tests.
+
+The workflow:
+- Runs when changes are pushed to the `KhanbanTasks` branch.
+- Runs when a pull request targets the `KhanbanTasks` branch.
+- Uses Java 21 (Temurin).
+- Downloads the required JUnit 4.13.2 and Hamcrest dependencies.
+- Executes the Ant `clean test` command.
+
+This helps verify that the project builds and that the automated tests pass.
+
+## 8. GitHub Version Control
+
+GitHub was used to manage the development of the application. Meaningful commits were made to record the implementation and testing of the Part 3 functionality.
+
+The Part 3 work includes six additional commits covering:
+- Longest-message testing.
+- Recipient-search testing.
+- Message-deletion testing.
+- JSON-reading testing.
+- Stored-message display testing.
+- Compatibility with older stored messages.
+
+## 9. Conclusion
+
+Part 3 extends the QuickChat application by introducing additional functionality for managing stored messages. Users can access message information, search for messages, identify the longest stored message, delete messages using their hashes and generate a full message report.
+
+Unit testing and GitHub Actions were used to test the application and support the development process.
+
 \## Author
 
 Kgauhelo Senatle
