@@ -463,6 +463,48 @@ public void testDisplayLongestMessageDetails() throws Exception {
     }
 }
 
+        
+@Test
+public void testSearchMessagesByRecipientExcludesOtherRecipients() throws Exception {
+
+    Path testFile = Files.createTempFile("testMessages", ".json");
+
+    String json = "["
+            + "{"
+            + "\"messageID\":\"1234567890\","
+            + "\"sender\":\"TestUser\","
+            + "\"recipient\":\"+27834557896\","
+            + "\"messageText\":\"Message for first recipient\","
+            + "\"messageHash\":\"hash1\","
+            + "\"messageStatus\":\"Stored\""
+            + "},"
+            + "{"
+            + "\"messageID\":\"0987654321\","
+            + "\"sender\":\"SecondUser\","
+            + "\"recipient\":\"+27838884567\","
+            + "\"messageText\":\"Message for second recipient\","
+            + "\"messageHash\":\"hash2\","
+            + "\"messageStatus\":\"Stored\""
+            + "}"
+            + "]";
+
+    Files.write(testFile, json.getBytes(StandardCharsets.UTF_8));
+
+    try {
+        storedData data = new storedData(testFile.toString());
+
+        String result = data.searchMessagesByRecipient("+27834557896");
+
+        assertTrue(result.contains("Message for first recipient"));
+        assertFalse(result.contains("Message for second recipient"));
+        assertTrue(result.contains("hash1"));
+        assertFalse(result.contains("hash2"));
+
+    } finally {
+        Files.deleteIfExists(testFile);
+    }
+}
+
     
 }
     
