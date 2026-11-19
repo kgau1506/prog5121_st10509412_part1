@@ -505,6 +505,54 @@ public void testSearchMessagesByRecipientExcludesOtherRecipients() throws Except
     }
 }
 
+                
+@Test
+public void testDeleteMessageByHashKeepsOtherMessages() throws Exception {
+
+    Path testFile = Files.createTempFile("testMessages", ".json");
+
+    String json = "["
+            + "{"
+            + "\"messageID\":\"1234567890\","
+            + "\"sender\":\"TestUser\","
+            + "\"recipient\":\"+27834557896\","
+            + "\"messageText\":\"Message to delete\","
+            + "\"messageHash\":\"deleteHash\","
+            + "\"messageStatus\":\"Stored\""
+            + "},"
+            + "{"
+            + "\"messageID\":\"0987654321\","
+            + "\"sender\":\"SecondUser\","
+            + "\"recipient\":\"+27838884567\","
+            + "\"messageText\":\"Message to keep\","
+            + "\"messageHash\":\"keepHash\","
+            + "\"messageStatus\":\"Stored\""
+            + "}"
+            + "]";
+
+    Files.write(testFile, json.getBytes(StandardCharsets.UTF_8));
+
+    try {
+        storedData data = new storedData(testFile.toString());
+
+        data.deleteMessageByHash("deleteHash");
+
+        String updatedJson = new String(
+                Files.readAllBytes(testFile),
+                StandardCharsets.UTF_8
+        );
+
+        assertFalse(updatedJson.contains("Message to delete"));
+        assertFalse(updatedJson.contains("deleteHash"));
+
+        assertTrue(updatedJson.contains("Message to keep"));
+        assertTrue(updatedJson.contains("keepHash"));
+
+    } finally {
+        Files.deleteIfExists(testFile);
+    }
+}
+
     
 }
     
