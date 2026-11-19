@@ -642,7 +642,34 @@ public void testDisplayStoredMessagesPrintsMessageDetails() throws Exception {
         Files.deleteIfExists(testFile);
     }
 }
-    
+  
+@Test
+public void testReadOlderStoredMessageWithoutSender() throws Exception {
+    Path testFile = Files.createTempFile("oldMessages", ".json");
+
+    String json = "[{"
+            + "\"messageID\":\"1234567890\","
+            + "\"recipient\":\"+27834557896\","
+            + "\"messageText\":\"Older stored message\","
+            + "\"messageHash\":\"oldHash1\","
+            + "\"messageStatus\":\"Stored\""
+            + "}]";
+
+    Files.write(testFile, json.getBytes(StandardCharsets.UTF_8));
+
+    try {
+        storedData data = new storedData(testFile.toString());
+
+        String result = data.searchMessageByID("1234567890");
+
+        assertNotNull(result);
+        assertTrue(result.contains("Unknown (older message)"));
+
+    } finally {
+        Files.deleteIfExists(testFile);
+    }
+}
+
 }
     
     
