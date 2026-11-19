@@ -603,6 +603,45 @@ public void testReadMultipleStoredMessagesFromJSON() throws Exception {
     }
 }
 
+                @Test
+public void testDisplayStoredMessagesPrintsMessageDetails() throws Exception {
+    Path testFile = Files.createTempFile("testMessages", ".json");
+
+    String json = "[{"
+            + "\"messageID\":\"1234567890\","
+            + "\"sender\":\"TestUser\","
+            + "\"recipient\":\"+27834557896\","
+            + "\"messageText\":\"Stored display test\","
+            + "\"messageHash\":\"hash1\","
+            + "\"messageStatus\":\"Stored\""
+            + "}]";
+
+    Files.write(testFile, json.getBytes(StandardCharsets.UTF_8));
+
+    java.io.PrintStream originalOut = System.out;
+    java.io.ByteArrayOutputStream output =
+            new java.io.ByteArrayOutputStream();
+
+    try {
+        storedData data = new storedData(testFile.toString());
+
+        System.setOut(new java.io.PrintStream(output));
+        data.displayStoredMessages();
+
+        String result = output.toString("UTF-8");
+
+        assertTrue(result.contains("STORED MESSAGES"));
+        assertTrue(result.contains("1234567890"));
+        assertTrue(result.contains("TestUser"));
+        assertTrue(result.contains("+27834557896"));
+        assertTrue(result.contains("Stored display test"));
+        assertTrue(result.contains("Stored"));
+
+    } finally {
+        System.setOut(originalOut);
+        Files.deleteIfExists(testFile);
+    }
+}
     
 }
     
