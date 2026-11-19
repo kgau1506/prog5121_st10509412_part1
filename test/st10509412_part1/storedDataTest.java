@@ -553,6 +553,56 @@ public void testDeleteMessageByHashKeepsOtherMessages() throws Exception {
     }
 }
 
+                   
+@Test
+public void testReadMultipleStoredMessagesFromJSON() throws Exception {
+
+    Path testFile = Files.createTempFile("testMessages", ".json");
+
+    String json = "["
+            + "{"
+            + "\"messageID\":\"1234567890\","
+            + "\"sender\":\"FirstUser\","
+            + "\"recipient\":\"+27834557896\","
+            + "\"messageText\":\"First stored message\","
+            + "\"messageHash\":\"hash1\","
+            + "\"messageStatus\":\"Stored\""
+            + "},"
+            + "{"
+            + "\"messageID\":\"0987654321\","
+            + "\"sender\":\"SecondUser\","
+            + "\"recipient\":\"+27838884567\","
+            + "\"messageText\":\"Second stored message\","
+            + "\"messageHash\":\"hash2\","
+            + "\"messageStatus\":\"Stored\""
+            + "}"
+            + "]";
+
+    Files.write(testFile, json.getBytes(StandardCharsets.UTF_8));
+
+    try {
+        storedData data = new storedData(testFile.toString());
+
+        String firstMessage = data.searchMessageByID("1234567890");
+        String secondMessage = data.searchMessageByID("0987654321");
+        String report = data.displayFullReport();
+
+        assertTrue(firstMessage.contains("First stored message"));
+        assertTrue(firstMessage.contains("FirstUser"));
+
+        assertTrue(secondMessage.contains("Second stored message"));
+        assertTrue(secondMessage.contains("SecondUser"));
+
+        assertTrue(report.contains("hash1"));
+        assertTrue(report.contains("hash2"));
+        assertTrue(report.contains("+27834557896"));
+        assertTrue(report.contains("+27838884567"));
+
+    } finally {
+        Files.deleteIfExists(testFile);
+    }
+}
+
     
 }
     
