@@ -419,7 +419,49 @@ public void testDisplayFullReportFromJSON() throws Exception {
 
     Files.deleteIfExists(testFile);
 }
+    
+    
+@Test
+public void testDisplayLongestMessageDetails() throws Exception {
 
+    Path testFile = Files.createTempFile("testMessages", ".json");
+
+    String json = "["
+            + "{"
+            + "\"messageID\":\"1234567890\","
+            + "\"sender\":\"TestUser\","
+            + "\"recipient\":\"+27834557896\","
+            + "\"messageText\":\"Short message\","
+            + "\"messageHash\":\"hash1\","
+            + "\"messageStatus\":\"Stored\""
+            + "},"
+            + "{"
+            + "\"messageID\":\"0987654321\","
+            + "\"sender\":\"SecondUser\","
+            + "\"recipient\":\"+27838884567\","
+            + "\"messageText\":\"This is the longest message in the test file.\","
+            + "\"messageHash\":\"hash2\","
+            + "\"messageStatus\":\"Stored\""
+            + "}"
+            + "]";
+
+    Files.write(testFile, json.getBytes(StandardCharsets.UTF_8));
+
+    try {
+        storedData data = new storedData(testFile.toString());
+
+        String result = data.displayLongestMessage();
+
+        assertTrue(result.contains("This is the longest message"));
+        assertTrue(result.contains("SecondUser"));
+        assertTrue(result.contains("+27838884567"));
+        assertTrue(result.contains("0987654321"));
+        assertTrue(result.contains("hash2"));
+
+    } finally {
+        Files.deleteIfExists(testFile);
+    }
+}
 
     
 }
